@@ -39,7 +39,9 @@ jobs:
           cd espresso
           python -m pip install -r requirements.txt
           mkdir build && cd build
-          cp ../maintainer/configs/maxset.hpp myconfig.hpp
+          cp ../src/config/myconfig-default.hpp myconfig.hpp
+          echo "" >> myconfig.hpp
+          echo "#define GAY_BERNE" >> myconfig.hpp
           cmake ../ -D ESPRESSO_BUILD_WITH_WALBERLA=on -D ESPRESSO_BUILD_WITH_FFTW=OFF
           cmake --build . -j $(nproc)
       - name: Run test suite
