@@ -20,3 +20,6 @@ coverage:
     changes: no
 
 comment: false
+
+ignore:
+- "setup.py"
