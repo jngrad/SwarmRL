@@ -20,6 +20,3 @@ coverage:
     changes: no
 
 comment: false
-
-ignore:
-- "**/espresso/build/src/python/espressomd/"
