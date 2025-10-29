@@ -28,7 +28,11 @@ jobs:
           pip install -r dev-requirements.txt
       - name: Install package
         run: |
+          ls -a
           python -m coverage run --parallel-mode -m pip install .
+          ls -a
+          python -m coverage combine .
+          python -m coverage report
       - name: Pytest
         run: |
           python -m coverage run --parallel-mode -m pytest --ignore CI/espresso_tests

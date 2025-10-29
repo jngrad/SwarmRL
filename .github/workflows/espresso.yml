@@ -23,13 +23,13 @@ jobs:
           test "${RUNNER_ARCH}" = "X64" && module use /cvmfs/dev.eessi.io/espresso/versions/2023.06/software/linux/x86_64/amd/zen2/modules/all
           module load ESPResSo/dc87ede3f6c218bb71624460752bc8c26a271c33-foss-2023b
           module save espresso
-          sed -i 's/numpy>=1.26.4/numpy>=1.26.4,<2.0/' requirements.txt
           python -m venv --system-site-packages venv
           source venv/bin/activate
           python -m pip config --site set global.disable-pip-version-check true
           python -m pip config --site set global.no-cache-dir false
           python -m pip install -c dev-requirements.txt coverage toml-cli
-          python -m pip install .
+          sed -i 's/numpy>=1.26.4/numpy>=1.26.4,<2.0/' requirements.txt
+          python -m coverage run --parallel-mode -m pip install .
           toml set --toml-path=pyproject.toml tool.coverage.run.omit --to-array '["*/espressomd/*", "/cvmfs/*"]'
           deactivate
           module purge
