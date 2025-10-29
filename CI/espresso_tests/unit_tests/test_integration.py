@@ -22,7 +22,7 @@ class Process(multiprocessing.Process):
         """
         Multiprocessing class constructor.
         """
-        super().__init__(*args, **kwargs)
+        multiprocessing.Process.__init__(self, *args, **kwargs)
         self._pconn, self._cconn = multiprocessing.Pipe()
         self._exception = None
 
@@ -31,7 +31,7 @@ class Process(multiprocessing.Process):
         Run the process and catch exceptions.
         """
         try:
-            super().run()
+            multiprocessing.Process.run(self)
             self._cconn.send(None)
         except Exception as e:
             tb = traceback.format_exc()
@@ -186,12 +186,11 @@ class TestSimulationIntegration(ut.TestCase):
             process = Process(target=sim.simulate_model)
             process.start()
             time.sleep(5)
-            process.join(1)
             process.terminate()
             if process.exception:
                 error, traceback = process.exception
                 print(traceback)
-            self.assertIsNone(process.exception)
+            self.assertEqual(process.exception, None)
 
     def test_1(self):
         with tempfile.TemporaryDirectory() as temp_dir:
@@ -207,12 +206,11 @@ class TestSimulationIntegration(ut.TestCase):
             process = Process(target=sim.simulate_model)
             process.start()
             time.sleep(5)
-            process.join(1)
             process.terminate()
             if process.exception:
                 error, traceback = process.exception
                 print(traceback)
-            self.assertIsNone(process.exception)
+            self.assertEqual(process.exception, None)
 
     def test_2(self):
         with tempfile.TemporaryDirectory() as temp_dir:
@@ -228,12 +226,11 @@ class TestSimulationIntegration(ut.TestCase):
             process = Process(target=sim.simulate_model)
             process.start()
             time.sleep(5)
-            process.join(1)
             process.terminate()
             if process.exception:
                 error, traceback = process.exception
                 print(traceback)
-            self.assertIsNone(process.exception)
+            self.assertEqual(process.exception, None)
 
 
 if __name__ == "__main__":
